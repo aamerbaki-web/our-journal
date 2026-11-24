@@ -1,1 +1,1 @@
-# .our-journal
+# our-journal
