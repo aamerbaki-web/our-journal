@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="ar" dir="rtl"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="referrer" content="no-referrer"><meta name="robots" content="noindex,nofollow"><meta name="theme-color" content="#faf7f1">
+<title>دفترنا</title>
+<style>
+:root{color-scheme:light;font:100%/1.75 system-ui,"Geeza Pro",sans-serif;background:#faf7f1;color:#342924}
+*{box-sizing:border-box}body{margin:0;min-height:95vh;display:grid;place-items:center;padding:22px}
+main{width:min(100%,30rem);padding:clamp(22px,6vw,40px);background:#fffdfa;border:1px solid #e9ddcf;border-radius:24px}
+h1{font-size:2.6rem;margin:0 0 1rem;font-weight:700}.open,button{font:inherit;font-weight:650;border-radius:12px;display:block;text-align:center;padding:.65rem 1rem;text-decoration:none}
+.open{color:white;background:#6c2039}button{background:#fff;color:#6c2039;border:1px solid #c4a5ab;cursor:pointer;width:100%}
+details{border-top:1px solid #e7dcd0;margin-top:1.8rem;padding-top:.9rem}summary{cursor:pointer;color:#604d46}
+p{margin:.8rem 0}.small{font-size:.9rem}textarea{width:100%;font:16px/1.4 ui-monospace,monospace;border:1px solid #d5c6b7;border-radius:10px;padding:.6rem;color:#352b25;background:#fbf7f0}button:focus-visible,a:focus-visible,summary:focus-visible{outline:3px solid #b97f2c;outline-offset:3px}[hidden]{display:none}
+</style></head><body>
+<main><h1>دفترنا</h1><a class="open" href="https://amer-dania.web.app/" rel="noreferrer">افتح اليوميات</a>
+<details><summary>إعداد النشر</summary><p>بعد تجهيز قاعدة البيانات، انسخ الأمر وافتح Cloud Shell في مشروع <bdi>amer-dania</bdi>. هالأمر بينشر الموقع وقواعد حماية الحسابين.</p>
+<div id="command-box" hidden><button id="copy" type="button">نسخ أمر النشر</button><details><summary>عرض الأمر</summary><textarea readonly rows="6" dir="ltr" id="command" aria-label="أمر نشر الموقع وقواعد الحماية"></textarea></details></div>
+<p class="small" role="status" aria-live="polite" id="status">افتح هالصفحة من رابط GitHub Pages الخاص بالمستودع لحتى يجهز الأمر.</p>
+<a href="https://console.firebase.google.com/project/amer-dania/overview" rel="noreferrer">فتح مشروع Firebase</a></details></main>
+<script>
+(function() {
+  const site = location.hostname.toLowerCase();
+  const match = location.pathname.match(/^\/([a-z\d_.-]+)(?:\/(?:index\.html)?)?$/i);
+  if(location.protocol !== 'https:' || !/^[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.github\.io$/.test(site) || !match || ['.','..'].includes(match[1])) return;
+  const archive = 'https://'+site+'/'+match[1]+'/journal-release.zip';
+  const box = document.getElementById('command-box'), area = document.getElementById('command'), status = document.getElementById('status');
+  const cmd = [
+    'workdir="$(mktemp -d)"',
+    'cd "$workdir"',
+    "curl --proto '=https' --proto-redir '=https' -fsSL '"+archive+"' -o journal-release.zip",
+    "echo '19852d7b7df8db78163b428e370ea5c18dfc187445d5979b75cf72a7f4add473  journal-release.zip' | sha256sum -c -",
+    'unzip -q journal-release.zip',
+    'firebase deploy --only firestore:rules,hosting --project amer-dania'
+  ].join(' && ');
+  area.value=cmd;box.hidden=false;status.textContent='';
+  document.getElementById('copy').addEventListener('click',async function(){
+    try{await navigator.clipboard.writeText(cmd);status.textContent='اننسخ الأمر. الصقه في Cloud Shell واضغط إدخال.'}
+    catch{area.parentElement.open=true;area.focus();area.select();area.setSelectionRange(0,area.value.length);status.textContent='حدّدنا الأمر كامل. اختار «نسخ».'}
+  });
+})();
+</script></body></html>
