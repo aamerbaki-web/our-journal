@@ -28,7 +28,7 @@ p{margin:.8rem 0}.small{font-size:.9rem}textarea{width:100%;font:16px/1.4 ui-mon
     'workdir="$(mktemp -d)"',
     'cd "$workdir"',
     "curl --proto '=https' --proto-redir '=https' -fsSL '"+archive+"' -o journal-release.zip",
-    "echo 'de8781398751e54862576df9069c7072f19d094caa6a592d9cfb51bc9229ca5f  journal-release.zip' | sha256sum -c -",
+    "echo '43335b2c16c020a55d0dab03a70250492a41814b016ce8db2552e1fd9408bbed  journal-release.zip' | sha256sum -c -",
     'unzip -q journal-release.zip',
     'firebase deploy --only firestore:rules,hosting --project amer-dania'
   ].join(' && ');
