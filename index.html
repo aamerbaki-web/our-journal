@@ -28,7 +28,7 @@ p{margin:.8rem 0}.small{font-size:.9rem}textarea{width:100%;font:16px/1.4 ui-mon
     'workdir="$(mktemp -d)"',
     'cd "$workdir"',
     "curl --proto '=https' --proto-redir '=https' -fsSL '"+archive+"' -o journal-release.zip",
-    "echo '601d329a5182f4b99167240b0d39a85e85b91eb92642678d96068194c1a1c7d6  journal-release.zip' | sha256sum -c -",
+    "echo '6bb345f3ccac8cf823df7f008dba24050c981bf85936e47733c1b6498eb68b24  journal-release.zip' | sha256sum -c -",
     'unzip -q journal-release.zip',
     'python3 deploy.py'
   ].join(' && ');
