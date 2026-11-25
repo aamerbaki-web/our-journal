@@ -28,9 +28,9 @@ p{margin:.8rem 0}.small{font-size:.9rem}textarea{width:100%;font:16px/1.4 ui-mon
     'workdir="$(mktemp -d)"',
     'cd "$workdir"',
     "curl --proto '=https' --proto-redir '=https' -fsSL '"+archive+"' -o journal-release.zip",
-    "echo '43335b2c16c020a55d0dab03a70250492a41814b016ce8db2552e1fd9408bbed  journal-release.zip' | sha256sum -c -",
+    "echo '9eca67568ada28c7e2fa4af354e4803327f1c5d10bcec4f9b384f062b792c5ee  journal-release.zip' | sha256sum -c -",
     'unzip -q journal-release.zip',
-    'firebase deploy --only firestore:rules,hosting --project amer-dania'
+    'python3 deploy.py'
   ].join(' && ');
   area.value=cmd;box.hidden=false;status.textContent='';
   document.getElementById('copy').addEventListener('click',async function(){
